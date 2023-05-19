@@ -53,8 +53,8 @@ ratio = 0.9
 random.seed(42)
 
 # 指定数据集路径和训练/验证集路径
-data_dir = "/data2/2022/kyb/datasets/kitti2cocotest/kitti/"
-dest_dir = '/data2/2022/kyb/datasets/kitti2cocotest/kitti_coco/'
+data_dir = "/home/zty/Dataset/Kitti_COCO/"
+dest_dir = '/home/zty/Dataset/Kitti_COCO/'
 
 train_img_dir = os.path.join(dest_dir, 'train2017')
 train_label_dir = os.path.join(dest_dir, 'labels/train_labels')
@@ -79,27 +79,32 @@ label_path = os.path.join(data_dir + 'label_2')
 random.shuffle(all_images)
 
 # 计算分割点
-split_index = int(ratio * num_images)
+# split_index = int(ratio * num_images)
+train_images_file = "/home/zty/Dataset/Kitti_COCO/ImageSets/train.txt"
+val_images_file = "/home/zty/Dataset/Kitti_COCO/ImageSets/val.txt"
+with open(train_images_file, 'r') as f:
+    train_images = f.readlines()
+with open(val_images_file, 'r') as f:
+    val_images = f.readlines()
 
-# 将前90%的图像复制到训练集文件夹
-for image_name in all_images[:split_index]:
-    src_path = os.path.join(img_path, image_name)
-    dst_path = os.path.join(train_img_dir, image_name)
+for image_name in train_images:
+    src_path = os.path.join(img_path, image_name.strip()+".png")
+    dst_path = os.path.join(train_img_dir, image_name.strip()+".png")
     shutil.copyfile(src_path, dst_path)
 
-    src_label_path = os.path.join(label_path, image_name[:-4] + '.txt')
-    dst_label_path = os.path.join(train_label_dir, image_name[:-4] + '.txt')
+    src_label_path = os.path.join(label_path, image_name.strip() + '.txt')
+    dst_label_path = os.path.join(train_label_dir, image_name.strip() + '.txt')
     shutil.copyfile(src_label_path, dst_label_path)
 
 # 将后10%的图像复制到验证集文件夹
-for image_name in all_images[split_index:]:
-    src_path = os.path.join(img_path, image_name)
-    dst_path = os.path.join(val_img_dir, image_name)
+for image_name in val_images:
+    src_path = os.path.join(img_path, image_name.strip()+".png")
+    dst_path = os.path.join(val_img_dir, image_name.strip()+".png")
     shutil.copyfile(src_path, dst_path)
 
-    src_label_path = os.path.join(label_path, image_name[:-4] + '.txt')
-    dst_label_path = os.path.join(val_label_dir, image_name[:-4] + '.txt')
+    src_label_path = os.path.join(label_path, image_name.strip() + '.txt')
+    dst_label_path = os.path.join(val_label_dir, image_name.strip() + '.txt')
     shutil.copyfile(src_label_path, dst_label_path)
     
 
-print("数据集划分完成！" + "训练集图片数目: " + str(split_index) + '验证集图片数目: '+ str(num_images - split_index))
+print("数据集划分完成！" + "训练集图片数目: " + len(train_images) + '验证集图片数目: '+ len(val_images))

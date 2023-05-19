@@ -82,7 +82,7 @@ if __name__ == '__main__':
     └── val2017
 
     '''
-    data_root = '/data2/2022/kyb/datasets/kitti2cocotest/kitti_coco/'
+    data_root = '/home/zty/Dataset/Kitti_COCO/'
 
     # 输出路径
     outputs_path = os.path.join(data_root, 'annotations')

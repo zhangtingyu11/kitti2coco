@@ -7,7 +7,7 @@
 import glob
 import string
 
-label_root = '/data2/2022/kyb/datasets/kitti2cocotest/kitti/label_2/'   # 标签文件所在目录
+label_root = '/home/zty/Dataset/Kitti_COCO/label_2'   # 标签文件所在目录
 
 txt_list = glob.glob(label_root + '*.txt') # 存储Labels文件夹所有txt文件路径
 
@@ -44,14 +44,14 @@ for item in txt_list:
         with open(item, 'r') as r_tdf:
             for each_line in r_tdf:
                 labeldata = each_line.strip().split(' ')
-                if labeldata[0] in ['Truck','Van','Tram']: # 合并汽车类
-                    labeldata[0] = labeldata[0].replace(labeldata[0],'Car')
-                if labeldata[0] == 'Person_sitting': # 合并行人类
-                    labeldata[0] = labeldata[0].replace(labeldata[0],'Pedestrian')
-                if labeldata[0] == 'DontCare': # 忽略Dontcare类
+                # if labeldata[0] in ['Truck','Van','Tram']: # 合并汽车类
+                #     labeldata[0] = labeldata[0].replace(labeldata[0],'Car')
+                # if labeldata[0] == 'Person_sitting': # 合并行人类
+                #     labeldata[0] = labeldata[0].replace(labeldata[0],'Pedestrian')
+                if labeldata[0] in ['DontCare','Truck','Van','Tram','Person_sitting','Misc']: # 忽略Dontcare类
                     continue
-                if labeldata[0] == 'Misc': # 忽略Misc类
-                    continue
+                # if labeldata[0] == 'Misc': # 忽略Misc类
+                #     continue
                 new_txt.append(merge(labeldata)) # 重新写入新的txt文件
         with open(item,'w+') as w_tdf: # w+是打开原文件将内容删除，另写新内容进去
             for temp in new_txt:
