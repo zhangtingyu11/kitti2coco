@@ -107,4 +107,4 @@ for image_name in val_images:
     shutil.copyfile(src_label_path, dst_label_path)
     
 
-print("数据集划分完成！" + "训练集图片数目: " + len(train_images) + '验证集图片数目: '+ len(val_images))
+print("数据集划分完成！" + "训练集图片数目: " + str(len(train_images)) + '验证集图片数目: '+ str(len(val_images)))
